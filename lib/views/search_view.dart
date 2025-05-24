@@ -36,9 +36,6 @@ class SearchView extends StatelessWidget {
                     String longitude = locations[0].longitude.toString();
                     log(latitude);
                     log(longitude);
-                    WeatherModel weatherModel = await ApiManager(Dio())
-                        .getWeatherData(longitude, latitude);
-                    log(weatherModel.weather?[0].main ?? "");
                   }
                 } catch (e) {
                   log('Error occurred: $e');
