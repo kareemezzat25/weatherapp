@@ -2,8 +2,10 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:weather_app/apis/api_manager.dart';
+import 'package:weather_app/cubit/weather_cubit.dart';
 import 'package:weather_app/models/weather_model.dart';
 
 class SearchView extends StatelessWidget {
@@ -29,17 +31,9 @@ class SearchView extends StatelessWidget {
           children: [
             TextField(
               onSubmitted: (value) async {
-                try {
-                  List<Location> locations = await locationFromAddress(value);
-                  if (locations.isNotEmpty) {
-                    String latitude = locations[0].latitude.toString();
-                    String longitude = locations[0].longitude.toString();
-                    log(latitude);
-                    log(longitude);
-                  }
-                } catch (e) {
-                  log('Error occurred: $e');
-                }
+                BlocProvider.of<WeatherCubit>(context).getWeather(value);
+                Navigator.pop(context);
+
                 log(value);
               },
               decoration: InputDecoration(
